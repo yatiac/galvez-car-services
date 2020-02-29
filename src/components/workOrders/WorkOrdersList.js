@@ -58,8 +58,8 @@ export default function SimpleTable() {
   return (
     <div className="container">
       <div className="row ">
-        <div className="col s12 white-text text-lighten-4">
-          <h4>Lista de Órdenes de Trabajo</h4>
+        <div className="col s12">
+          <h4>Órdenes de Trabajo</h4>
         </div>
       </div>
       <TableContainer component={Paper}>

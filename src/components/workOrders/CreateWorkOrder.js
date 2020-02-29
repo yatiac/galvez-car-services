@@ -1,29 +1,25 @@
 import React, { Component } from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { makeStyles } from "@material-ui/core/styles";
 
 class CreateWorkOrder extends Component {
-  render() {    
+  render() {
     return (
       <div className="container">
+        <div className="row">
+          <div className="col">
+            <h4>Crear Orden de Trabajo</h4>
+          </div>
+        </div>
         <form className="white">
-          <h4>Crear Orden de Trabajo</h4>
           <div className="row">
             <h5>Datos de la Orden</h5>
             <div className="col s6">
-              <TextField
-                id="date"
-                label="Fecha"
-                type="date"
-                defaultValue="2017-05-24"
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+              <label htmlFor="date">Fecha</label>
+              <input type="text" id="date" className="datepicker" />
             </div>
             <div className="col s6">
-                <label htmlFor="status">Estado</label>
-                <input type="text" id="status" value="Nueva"/>
+              <label htmlFor="status">Estado</label>
+              <input type="text" id="status" />
             </div>
           </div>
           <div className="row">
@@ -66,9 +62,7 @@ class CreateWorkOrder extends Component {
           </div>
           <div className="row">
             <h5>Síntomas</h5>
-            <div className="col s12">
-              <TextField id="symptoms" label="Síntomas" multiline rows="4" />
-            </div>
+            <div className="col s12"></div>
           </div>
           <div className="row">
             <div className="input-field">
