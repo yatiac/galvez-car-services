@@ -21,7 +21,12 @@ const SideNav = () => {
         </li>
         <li>
           <Link to="/quotations">
-            <i className="material-icons">local_atm</i>Cotizaciones
+            <i className="material-icons">library_books</i>Cotizaciones
+          </Link>
+        </li>
+        <li>
+          <Link to="/invoices">
+            <i className="material-icons">attach_money</i>Facturas
           </Link>
         </li>
       </ul>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 function createData(id, plate, name, date, status) {
   return { id, plate, name, date, status };
 }
-
 
 const rows = [
   createData(
@@ -50,10 +49,10 @@ const rows = [
 export default function SimpleTable() {
   const classes = useStyles();
   let history = useHistory();
-  const handleClick = (e) => {
-    const id =  e.target.getAttribute('data-id');
-    history.push(`/workOrder/${id}`);    
-  }  
+  const handleClick = e => {
+    const id = e.target.getAttribute("data-id");
+    history.push(`/workOrder/${id}`);
+  };
 
   return (
     <div className="container">
@@ -91,8 +90,11 @@ export default function SimpleTable() {
       <div className="row">
         <div className="col s12">
           <div className="input-field right">
-            <Link to='/createWorkOrder'>
-            <button className="btn red darken-1">Crear Nueva Orden</button>            
+            <Link to="/createWorkOrder">
+              <button className="btn red darken-1">
+                <i class="material-icons left">add</i>
+                Crear Nueva Orden
+              </button>
             </Link>
           </div>
         </div>
