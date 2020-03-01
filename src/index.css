@@ -7,7 +7,9 @@ body {
 .main-container {
   min-height: 100vh;
 }
-
+.pointer { 
+  cursor: pointer;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

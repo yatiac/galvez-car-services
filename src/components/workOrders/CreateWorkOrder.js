@@ -1,8 +1,52 @@
 import React, { Component } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
 class CreateWorkOrder extends Component {
+  state = {
+    date: "",
+    status: "",
+    owner: {
+      name: "",
+      email: "",
+      phone: ""
+    },
+    vehicle: {
+      plate: "",
+      maker: "",
+      model: "",
+      year: "",
+      color: ""
+    },
+    symptoms: [],
+    syptomTextField: ""
+  };
+
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+
+  removeSymptom = e => {
+    const symptoms = this.state.symptoms;
+    symptoms.splice(e.target.id,1);
+    this.setState({
+      symptoms
+    });
+  }
+
+  addSymptomToList = e => {
+    e.preventDefault();
+    const symptoms = this.state.symptoms;
+    symptoms.push(this.state.syptomTextField);
+
+    this.setState({
+      symptoms: symptoms,
+      syptomTextField: ""
+    });
+  };
+
   render() {
+    const data = this.state.symptoms;
     return (
       <div className="container">
         <div className="row">
@@ -62,11 +106,43 @@ class CreateWorkOrder extends Component {
           </div>
           <div className="row">
             <h5>Síntomas</h5>
-            <div className="col s12"></div>
+            <div className="input-field col s10">
+              <label htmlFor="syptomTextField">Añadir Síntoma</label>
+              <input
+                type="text"
+                id="syptomTextField"
+                onChange={this.handleChange}
+                value={this.state.syptomTextField}
+              />
+            </div>
+            <div className="input-field col s2">
+              <button
+                className="btn red darken-2"
+                onClick={this.addSymptomToList}
+              >
+                <i className="material-icons">add</i>
+              </button>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s12">
+              {data.length > 0 && (
+                <ul id="symptomsList" className="collection">
+                  {data.map((item, index) => (
+                    <li key={index} className="collection-item">
+                      <div>
+                        {item}
+                          <i id={index} className="material-icons right red white-text pointer" onClick={this.removeSymptom}>remove</i>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
           <div className="row">
             <div className="input-field">
-              <button className="btn red darken-3 z-depth-0">Create</button>
+              <button className="btn red darken-3 z-depth-0">Guardar</button>
             </div>
           </div>
         </form>
