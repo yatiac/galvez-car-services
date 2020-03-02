@@ -1,21 +1,21 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 class CreateWorkOrder extends Component {
+  dateNow = moment(new Date()).format("YYYY-MM-DD");
   state = {
-    date: "",
-    status: "",
-    owner: {
-      name: "",
-      email: "",
-      phone: ""
-    },
-    vehicle: {
-      plate: "",
-      maker: "",
-      model: "",
-      year: "",
-      color: ""
-    },
+    date: this.dateNow,
+    status: "Nueva",
+    mechanic: "",
+    type: "Mecánica",
+    ownerName: "",
+    ownerEmail: "",
+    ownerPhone: "",
+    vehiclePlate: "",
+    vehicleMaker: "",
+    vehicleModel: "",
+    vehicleYear: "",
+    vehicleColor: "",
     symptoms: [],
     syptomTextField: ""
   };
@@ -26,23 +26,30 @@ class CreateWorkOrder extends Component {
     });
   };
 
+  handelSubmit = e => {
+    e.preventDefault();
+    console.log(this.state);
+  };
+
   removeSymptom = e => {
     const symptoms = this.state.symptoms;
-    symptoms.splice(e.target.id,1);
+    symptoms.splice(e.target.id, 1);
     this.setState({
       symptoms
     });
-  }
+  };
 
   addSymptomToList = e => {
     e.preventDefault();
     const symptoms = this.state.symptoms;
-    symptoms.push(this.state.syptomTextField);
-
-    this.setState({
-      symptoms: symptoms,
-      syptomTextField: ""
-    });
+    const newSymptom = this.state.syptomTextField;
+    if (newSymptom.length > 0) {
+      symptoms.push(newSymptom);
+      this.setState({
+        symptoms: symptoms,
+        syptomTextField: ""
+      });
+    }
   };
 
   render() {
@@ -59,49 +66,111 @@ class CreateWorkOrder extends Component {
             <h5>Datos de la Orden</h5>
             <div className="col s6">
               <label htmlFor="date">Fecha</label>
-              <input type="text" id="date" className="datepicker" />
+              <input
+                type="date"
+                id="date"
+                onChange={this.handleChange}
+                value={this.state.date}
+              />
             </div>
             <div className="col s6">
+              <label htmlFor="status">Mécanico</label>
+              <input
+                type="text"
+                id="mechanic"
+                onChange={this.handleChange}
+                value={this.state.mechanic}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s12 m6">
               <label htmlFor="status">Estado</label>
-              <input type="text" id="status" />
+              <select
+                id="status"
+                onChange={this.handleChange}
+                value={this.state.status}
+                className="browser-default"
+              >
+                <option value="Nueva">Nueva</option>
+                <option value="En Progreso">En Progreso</option>
+                <option value="Entregado">Entregado</option>
+              </select>
+            </div>
+            <div className="col s12 m6">
+              <label htmlFor="status">Tipo</label>
+              <select
+                id="type"
+                onChange={this.handleChange}
+                className="browser-default"
+              >
+                <option value="Mecánica">Mecánica</option>
+                <option value="Chapistería">Chapistería</option>
+                <option value="Aire Acondicionado">Aire Acondicionado</option>
+              </select>
             </div>
           </div>
           <div className="row">
             <h5>Datos del Dueño</h5>
             <div className="input-field col s12 m6 l4">
-              <label htmlFor="name">Nombre</label>
-              <input type="text" id="name" />
+              <label htmlFor="ownerName">Nombre</label>
+              <input
+                type="text"
+                id="ownerName"
+                onChange={this.handleChange}
+                required
+              />
             </div>
             <div className="input-field col s12 m6 l4">
-              <label htmlFor="email">E-Mail</label>
-              <input type="text" id="email" />
+              <label htmlFor="ownerEmail">E-Mail</label>
+              <input type="text" id="ownerEmail" onChange={this.handleChange} />
             </div>
             <div className="input-field col s12 m6 l4">
-              <label htmlFor="phone">Telefono</label>
-              <input type="text" id="phone" />
+              <label htmlFor="ownerPhone">Telefono</label>
+              <input type="text" id="ownerPhone" onChange={this.handleChange} />
             </div>
           </div>
           <div className="row">
             <h5>Datos del Vehiculo</h5>
             <div className="input-field col s6 m3">
-              <label htmlFor="plate">Placa</label>
-              <input type="text" id="plate" />
+              <label htmlFor="vehiclePlate">Placa</label>
+              <input
+                type="text"
+                id="vehiclePlate"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="input-field col s6 m3">
-              <label htmlFor="maker">Marca</label>
-              <input type="text" id="maker" />
+              <label htmlFor="vehicleMaker">Marca</label>
+              <input
+                type="text"
+                id="vehicleMaker"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="input-field col s6 m3">
-              <label htmlFor="model">Modelo</label>
-              <input type="text" id="model" />
+              <label htmlFor="vehicleModel">Modelo</label>
+              <input
+                type="text"
+                id="vehicleModel"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="input-field col s6 m3">
-              <label htmlFor="color">Color</label>
-              <input type="text" id="color" />
+              <label htmlFor="vehicleColor">Color</label>
+              <input
+                type="text"
+                id="vehicleColor"
+                onChange={this.handleChange}
+              />
             </div>
             <div className="input-field col s6 m3">
-              <label htmlFor="year">Año</label>
-              <input type="text" id="year" />
+              <label htmlFor="vehicleYear">Año</label>
+              <input
+                type="text"
+                id="vehicleYear"
+                onChange={this.handleChange}
+              />
             </div>
           </div>
           <div className="row">
@@ -132,7 +201,13 @@ class CreateWorkOrder extends Component {
                     <li key={index} className="collection-item">
                       <div>
                         {item}
-                          <i id={index} className="material-icons right red white-text pointer" onClick={this.removeSymptom}>remove</i>
+                        <i
+                          id={index}
+                          className="material-icons right red white-text pointer"
+                          onClick={this.removeSymptom}
+                        >
+                          remove
+                        </i>
                       </div>
                     </li>
                   ))}
@@ -142,7 +217,12 @@ class CreateWorkOrder extends Component {
           </div>
           <div className="row">
             <div className="input-field">
-              <button className="btn red darken-3 z-depth-0">Guardar</button>
+              <button
+                className="btn red darken-3 z-depth-0"
+                onClick={this.handelSubmit}
+              >
+                Guardar
+              </button>
             </div>
           </div>
         </form>

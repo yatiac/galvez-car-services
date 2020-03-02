@@ -89,10 +89,10 @@
       format: 'dd mmm, yyyy'
     }
     document.addEventListener('DOMContentLoaded', function () {
-      var elemsSideNav = document.querySelectorAll('.sidenav');
-      var elemsDatePicker = document.querySelectorAll('.datepicker');
-      var instances = M.Sidenav.init(elemsSideNav, options);
-      var instances = M.Datepicker.init(elemsDatePicker, options);
+      var elemsSideNav = document.querySelectorAll('.sidenav');      
+      var elemsSelect = document.querySelectorAll('select');
+      var instances = M.Sidenav.init(elemsSideNav, options);   
+      var instances = M.FormSelect.init(elemsSelect, options);   
     });
   </script>
 </body>
