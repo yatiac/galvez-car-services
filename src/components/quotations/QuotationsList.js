@@ -9,7 +9,7 @@ const QuotationsList = () => {
           <h4>Esta es la lista de cotizaciones</h4>
           <Link to="/createQuotation">
             <button className="btn red darken-2">
-              <i class="material-icons left">add</i>
+              <i className="material-icons left">add</i>
               Crear Cotización
             </button>
           </Link>

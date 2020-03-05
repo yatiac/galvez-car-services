@@ -15,9 +15,6 @@ import CreateInvoice from "./components/invoices/CreateInvoice";
 function App() {
   return (
     <BrowserRouter>
-      <headear>
-        {/* <NavBar /> */}
-      </headear>
       <SideNav></SideNav>
       <main>
         <div className="grey lighten-2 main-container">

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import moment from "moment";
+import { createWorkOrder } from "../../store/actions/workOrdersActions";
 
 class CreateWorkOrder extends Component {
   dateNow = moment(new Date()).format("YYYY-MM-DD");
@@ -27,8 +29,27 @@ class CreateWorkOrder extends Component {
   };
 
   handelSubmit = e => {
-    e.preventDefault();
-    console.log(this.state);
+    e.preventDefault();    
+    const workOrderObject = { 
+      date: this.state.date,
+      status: this.state.status,
+      type: this.state.type,
+      owner: {
+        name: this.state.ownerName,
+        email: this.state.ownerEmail,
+        phone: this.state.ownerPhone
+      },
+      vehicle: {
+        plate: this.state.vehiclePlate,
+        maker: this.state.vehicleMaker,
+        model: this.state.vehicleModel,
+        color: this.state.vehicleColor,
+        year: this.state.vehicleYear
+      },
+      symptoms: this.state.symptoms
+    };
+    this.props.createWorkOrder(workOrderObject);
+    this.props.history.push('/');
   };
 
   removeSymptom = e => {
@@ -103,6 +124,7 @@ class CreateWorkOrder extends Component {
                 id="type"
                 onChange={this.handleChange}
                 className="browser-default"
+                value= {this.state.type}
               >
                 <option value="Mecánica">Mecánica</option>
                 <option value="Chapistería">Chapistería</option>
@@ -231,4 +253,14 @@ class CreateWorkOrder extends Component {
   }
 }
 
-export default CreateWorkOrder;
+const mapStateToProps = (state) => {
+  return {      
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createWorkOrder: workOrder => dispatch(createWorkOrder(workOrder))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateWorkOrder);
