@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect, useHistory } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/es";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -14,45 +16,35 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-
-
-function createData(id, plate, name, date, status) {
-  return { id, plate, name, date, status };
-}
-
-const rows = [
-  createData(
-    "123",
-    "650035",
-    "Rafael Echeverría",
-    "10 de Febrero 2020",
-    "Nueva"
-  ),
-  createData("456", "243002", "Ida Gálvez", "14 de Febrero 2020", "En Proceso"),
-  createData(
-    "789",
-    "AB1212",
-    "Sandra Amores",
-    "25 de Febrero 2020",
-    "En Proceso"
-  ),
-  createData(
-    "321",
-    "XY1230",
-    "Giovanna Gálvez",
-    "3 de Febrero 2020",
-    "Entregada"
-  )
-];
-
 class WorkOrdersList extends Component {
-  
   handleClick = e => {
     const id = e.target.getAttribute("data-id");
     this.props.history.push(`/workOrder/${id}`);
   };
-  
+
+  statusBadge = (status, id) => {
+    let color = "";
+    switch (status) {
+      case "Nueva":
+        color = "red";
+        break;
+      case "En Proceso":
+        color = "blue";
+        break;
+      case "Entregado":
+        color = "green";
+        break;
+      default:
+        color = "yellow";
+        break;
+    }
+    return (
+      <span className={`new badge ${color}`} data-badge-caption={status} data-id={id}></span>
+    );
+  };
+
   render() {
+    moment.locale('es');
     const { workOrders } = this.props;
     return (
       <div className="container">
@@ -74,20 +66,30 @@ class WorkOrdersList extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {workOrders && workOrders.map(row => (
-                <TableRow className="pointer" key={row.id} onClick={this.handleClick} data-id={row.id}>
-                  {/* <TableCell component="th" scope="row" data-id={row.id}>
+              {workOrders &&
+                workOrders.map(row => (
+                  <TableRow
+                    className="pointer"
+                    key={row.id}
+                    onClick={this.handleClick}
+                    data-id={row.id}
+                  >
+                    {/* <TableCell component="th" scope="row" data-id={row.id}>
                     {row.id}
                   </TableCell> */}
-                  <TableCell data-id={row.id}>{row.vehicle.plate}</TableCell>
-                  <TableCell data-id={row.id}>{row.owner.name}</TableCell>
-                  <TableCell data-id={row.id}>{row.date}</TableCell>
-                  <TableCell data-id={row.id}>{row.symptoms.map(item => (
-                    <li>{item}</li>
-                  ))}</TableCell>
-                  <TableCell data-id={row.id}>{row.status}</TableCell>
-                </TableRow>
-              ))}
+                    <TableCell data-id={row.id}>{row.vehicle.plate}</TableCell>
+                    <TableCell data-id={row.id}>{row.owner.name}</TableCell>
+                    <TableCell data-id={row.id}>{moment(row.date).format('MMMM D YYYY')}</TableCell>
+                    <TableCell data-id={row.id}>
+                      {row.symptoms.map((item,index) => (
+                        <li data-id={row.id} key={index}>{item}</li>
+                      ))}
+                    </TableCell>
+                      <TableCell data-id={row.id}>{
+                        this.statusBadge(row.status, row.id)
+                      }</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -107,13 +109,14 @@ class WorkOrdersList extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  console.log(state);
+const mapStateToProps = state => {  
   return {
     workOrders: state.firestore.ordered.workOrders
   };
 };
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "workOrders", orderBy: ["createdAt", "desc"] }])
+  firestoreConnect([
+    { collection: "workOrders", orderBy: ["createdAt", "desc"] }
+  ])
 )(WorkOrdersList);

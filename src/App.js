@@ -15,7 +15,9 @@ import CreateInvoice from "./components/invoices/CreateInvoice";
 function App() {
   return (
     <BrowserRouter>
-      <SideNav></SideNav>
+    <aside>
+      <SideNav />
+    </aside>
       <main>
         <div className="grey lighten-2 main-container">
           <Switch>
@@ -23,10 +25,10 @@ function App() {
             <Route path="/workOrders" component={WorkOrdersList} />
             <Route path="/workOrder/:id" component={WorkOrderDetails} />
             <Route path="/createWorkOrder" component={CreateWorkOrder} />
-            <Route path="/quotations" component={QuotationsList}/>
-            <Route path="/createQuotation" component={CreateQuotation}/>
-            <Route path="/invoices" component={InvoicesList}/>
-            <Route path="/createInvoice" component={CreateInvoice}/>
+            <Route path="/quotations" component={QuotationsList} />
+            <Route path="/createQuotation" component={CreateQuotation} />
+            <Route path="/invoices" component={InvoicesList} />
+            <Route path="/createInvoice" component={CreateInvoice} />
           </Switch>
         </div>
       </main>

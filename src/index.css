@@ -1,33 +1,41 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto','Fjalla One' ;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Fjalla One";
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;  
+  -moz-osx-font-smoothing: grayscale;
 }
 .main-container {
   min-height: 100vh;
 }
-.pointer { 
+.pointer {
   cursor: pointer;
 }
+tr.pointer:hover {
+  background-color: #f8f8f8;
+}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-form { 
+form {
   padding: 20px;
   /* margin-top: 60px; */
 }
-form button, form h5 {
+form button,
+form h5 {
   margin: 20px 0;
 }
-header, main, footer {
+header,
+main,
+footer {
   padding-left: 300px;
 }
 
-@media only screen and (max-width : 992px) {
-  header, main, footer {
+@media only screen and (max-width: 992px) {
+  header,
+  main,
+  footer {
     padding-left: 0;
   }
 }

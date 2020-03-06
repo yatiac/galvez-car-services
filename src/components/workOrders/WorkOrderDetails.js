@@ -1,114 +1,75 @@
 import React from "react";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { Redirect } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/es";
 
-function createData(
-  id,
-  plate,
-  name,
-  phone,
-  email,
-  date,
-  status,
-  maker,
-  model,
-  color,
-  year
-) {
-  return {
-    id,
-    plate,
-    name,
-    phone,
-    email,
-    date,
-    status,
-    maker,
-    model,
-    color,
-    year
-  };
-}
-
-const row = createData(
-  "123",
-  "650035",
-  "Rafael Echeverría",
-  "6981-7547",
-  "master.152@gmail.com",
-  "10 de Febrero 2020",
-  "Nueva",
-  "Nissan",
-  "Almera",
-  "Blanco",
-  "2011"
-);
-const WorkOrderDetails = () => {
+const WorkOrderDetails = props => {
+  const { workOrder } = props;  
+  moment.locale('es');
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col s12">
-          <h4>Orden de Trabajo 123</h4>
-        </div>
-      </div>
-      <div className="white">
-        <div className="row">
-          <div className="col s12 m6">
-            <strong>Fecha</strong>
-            <p>{row.date}</p>
-          </div>
-          <div className="col s12 m6">
-            <strong>Estado</strong>
-            <p>{row.status}</p>
-          </div>
-        </div>
+    workOrder && (
+      <div className="container">
         <div className="row">
           <div className="col s12">
-            <h5>Datos del Dueño</h5>
+            {/* <h4>Orden de Trabajo</h4> */}
           </div>
         </div>
-        <div className="row">
-          <div className="col s12 m6 l4">
-            <strong>Nombre</strong>
-            <p>{row.name}</p>
+        <div className="white">
+          <div className="row">
+            <div className="col s6">
+              <p><strong className="grey-text text-darken-1">Fecha</strong></p>              
+              <p>{moment(workOrder.date).format('MMMM D YYYY')}</p>
+            </div>
+            <div className="col s6">
+              <p><strong>Estado</strong></p>
+              <p>{workOrder.status}</p>
+            </div>
           </div>
-          <div className="col s12 m6 l4">
-            <strong>Teléfono</strong>
-            <p>{row.phone}</p>
+          <div className="row">
+            <div className="col s12 m6">
+              <h4>Dueño</h4>
+              <p>{workOrder.owner.name}</p>
+              <p>{workOrder.owner.phone}</p>
+              <p>{workOrder.owner.email}</p>
+            </div>
+            <div className="col s12 m6">
+              <h4>Vehículo</h4>
+              <p>
+                [{workOrder.vehicle.plate}] {workOrder.vehicle.maker}{" "}
+                {workOrder.vehicle.model} {workOrder.vehicle.color}{" "}
+                {workOrder.vehicle.year}
+              </p>
+            </div>
           </div>
-          <div className="col s12 m6 l4">
-            <strong>E-Mail</strong>
-            <p>{row.email}</p>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col s12 m6 l4">
-            <h5>Datos del Vehículo</h5>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col s6 l4">
-            <strong>Placa</strong>
-            <p>{row.plate}</p>
-          </div>
-          <div className="col s6 l4">
-            <strong>Marca</strong>
-            <p>{row.maker}</p>
-          </div>
-          <div className="col s6 l4">
-            <strong>Modelo</strong>
-            <p>{row.model}</p>
-          </div>
-          <div className="col s6 l4">
-            <strong>Año</strong>
-            <p>{row.year}</p>
-          </div>
-          <div className="col s6 l4">
-            <strong>Color</strong>
-            <p>{row.color}</p>
+          <div className="row">
+            <div className="col s12">
+              <h4>Síntomas</h4>
+              <ul className="collection">
+              {workOrder.symptoms.map(item => (
+                        <li className="collection-item" data-id={item}>{item}</li>
+                      ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 
-export default WorkOrderDetails;
+const mapStateToProps = (state, ownProps) => {  
+  const id = ownProps.match.params.id;
+  const workOrders = state.firestore.data.workOrders;
+  const workOrder = workOrders ? workOrders[id] : null;
+  return {
+    workOrder
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "workOrders" }])
+)(WorkOrderDetails);
