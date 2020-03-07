@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
     <aside>
-      <SideNav />
+      {/* <SideNav /> */}
     </aside>
       <main>
         <div className="grey lighten-2 main-container">

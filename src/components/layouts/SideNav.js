@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 const SideNav = () => {
   return (
-    <div className="sidenav-close">
+    <div>
+    {/* <div className="sidenav-close">
       <ul id="slide-out" className="sidenav sidenav-fixed grey lighten-1">
         <li>
           <Link to="/" className="brand-logo center">
@@ -31,6 +32,8 @@ const SideNav = () => {
         </li>
       </ul>
       <a href="#" data-target="slide-out" className="sidenav-trigger left"><i className="material-icons grey-text text-darken-3">double_arrow</i></a>
+    </div> */}
+
     </div>
   );
 };

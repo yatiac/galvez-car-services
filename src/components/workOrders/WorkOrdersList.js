@@ -39,77 +39,125 @@ class WorkOrdersList extends Component {
         break;
     }
     return (
-      <span className={`new badge ${color}`} data-badge-caption={status} data-id={id}></span>
+      <span
+        className={`new badge ${color}`}
+        data-badge-caption={status}
+        data-id={id}
+      ></span>
     );
   };
 
   render() {
-    moment.locale('es');
+    moment.locale("es");
     const { workOrders } = this.props;
     return (
-      <div className="container">
-        <div className="row ">
-          <div className="col s12">
-            <h4>Órdenes de Trabajo</h4>
+      <div>
+        <div className="container hide-on-small-only">
+          <div className="row ">
+            <div className="col s12">
+              <h4>Órdenes de Trabajo</h4>
+            </div>
+          </div>
+          <TableContainer component={Paper}>
+            <Table className="table" aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  {/* <TableCell># de Orden</TableCell> */}
+                  <TableCell>Placa</TableCell>
+                  <TableCell>Dueño</TableCell>
+                  <TableCell>Fecha</TableCell>
+                  <TableCell>Síntomas</TableCell>
+                  <TableCell>Estado</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {workOrders &&
+                  workOrders.map(workOrder => (
+                    <TableRow
+                      className="pointer"
+                      key={workOrder.id}
+                      onClick={this.handleClick}
+                      data-id={workOrder.id}
+                    >
+                      <TableCell data-id={workOrder.id}>
+                        {workOrder.vehicle.plate}
+                      </TableCell>
+                      <TableCell data-id={workOrder.id}>
+                        {workOrder.owner.name}
+                      </TableCell>
+                      <TableCell data-id={workOrder.id}>
+                        {moment(workOrder.date).format("MMMM D YYYY")}
+                      </TableCell>
+                      <TableCell data-id={workOrder.id}>
+                        {workOrder.symptoms.map((item, index) => (
+                          <li data-id={workOrder.id} key={index}>
+                            {item}
+                          </li>
+                        ))}
+                      </TableCell>
+                      <TableCell data-id={workOrder.id}>
+                        {this.statusBadge(workOrder.status, workOrder.id)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <div className="row">
+            <div className="col s12">
+              <div className="input-field right">
+                <Link to="/createWorkOrder">
+                  <button className="btn red darken-1">
+                    <i className="material-icons left">add</i>
+                    Crear Nueva Orden
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
-        <TableContainer component={Paper}>
-          <Table className="table" aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                {/* <TableCell># de Orden</TableCell> */}
-                <TableCell>Placa</TableCell>
-                <TableCell>Dueño</TableCell>
-                <TableCell>Fecha</TableCell>
-                <TableCell>Síntomas</TableCell>
-                <TableCell>Estado</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {workOrders &&
-                workOrders.map(row => (
-                  <TableRow
-                    className="pointer"
-                    key={row.id}
-                    onClick={this.handleClick}
-                    data-id={row.id}
-                  >
-                    {/* <TableCell component="th" scope="row" data-id={row.id}>
-                    {row.id}
-                  </TableCell> */}
-                    <TableCell data-id={row.id}>{row.vehicle.plate}</TableCell>
-                    <TableCell data-id={row.id}>{row.owner.name}</TableCell>
-                    <TableCell data-id={row.id}>{moment(row.date).format('MMMM D YYYY')}</TableCell>
-                    <TableCell data-id={row.id}>
-                      {row.symptoms.map((item,index) => (
-                        <li data-id={row.id} key={index}>{item}</li>
-                      ))}
-                    </TableCell>
-                      <TableCell data-id={row.id}>{
-                        this.statusBadge(row.status, row.id)
-                      }</TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <div className="row">
-          <div className="col s12">
-            <div className="input-field right">
-              <Link to="/createWorkOrder">
-                <button className="btn red darken-1">
-                  <i className="material-icons left">add</i>
-                  Crear Nueva Orden
-                </button>
-              </Link>
-            </div>
+        <div className="hide-on-med-and-up">
+          <ul className="collection no-margin with-header">
+            <li className="collection-header">
+              <h4>Órdenes de Trabajo</h4>
+            </li>
+            {workOrders &&
+              workOrders.map((workOrder, index) => (
+                <li
+                  className="collection-item"
+                  key={index}
+                  data-id={workOrder.id}
+                  onClick={this.handleClick}
+                >
+                  <span className="title" data-id={workOrder.id}>
+                    <strong>{workOrder.owner.name}</strong>{" "}
+                  </span>
+                  <span className="secondary-content" data-id={workOrder.id}>
+                    {" "}
+                    {this.statusBadge(workOrder.status, workOrder.id)}
+                  </span>
+                  <p
+                    data-id={workOrder.id}
+                  >{`[${workOrder.vehicle.plate}] ${workOrder.vehicle.maker} ${workOrder.vehicle.model} ${workOrder.vehicle.color} (${workOrder.vehicle.year})`}</p>
+                  <span className="grey-text" data-id={workOrder.id}>
+                    {moment(workOrder.date).format("MMMM D YYYY")}
+                  </span>
+                </li>
+              ))}
+          </ul>
+          <div class="fixed-action-btn">
+            <Link to="/createWorkOrder">
+              <a class="btn-floating btn-large red">
+                <i class="large material-icons">add</i>
+              </a>
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 }
-const mapStateToProps = state => {  
+const mapStateToProps = state => {
   return {
     workOrders: state.firestore.ordered.workOrders
   };
