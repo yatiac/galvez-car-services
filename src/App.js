@@ -11,13 +11,11 @@ import QuotationsList from "./components/quotations/QuotationsList";
 import CreateQuotation from "./components/quotations/CreateQuotation";
 import InvoicesList from "./components/invoices/InvoicesList";
 import CreateInvoice from "./components/invoices/CreateInvoice";
+import Navbar from "./components/layouts/Navbar";
 
 function App() {
   return (
     <BrowserRouter>
-    <aside>
-      {/* <SideNav /> */}
-    </aside>
       <main>
         <div className="grey lighten-2 main-container">
           <Switch>
@@ -32,6 +30,7 @@ function App() {
           </Switch>
         </div>
       </main>
+      <Navbar/>
     </BrowserRouter>
   );
 }

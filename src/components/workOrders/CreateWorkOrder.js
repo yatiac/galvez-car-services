@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import { createWorkOrder } from "../../store/actions/workOrdersActions";
+import Topbar from "../layouts/Topbar";
 
 class CreateWorkOrder extends Component {
   dateNow = moment(new Date()).format("YYYY-MM-DD");
@@ -29,8 +30,8 @@ class CreateWorkOrder extends Component {
   };
 
   handelSubmit = e => {
-    e.preventDefault();    
-    const workOrderObject = { 
+    e.preventDefault();
+    const workOrderObject = {
       date: this.state.date,
       status: this.state.status,
       type: this.state.type,
@@ -49,7 +50,7 @@ class CreateWorkOrder extends Component {
       symptoms: this.state.symptoms
     };
     this.props.createWorkOrder(workOrderObject);
-    this.props.history.push('/');
+    this.props.history.push("/");
   };
 
   removeSymptom = e => {
@@ -76,12 +77,9 @@ class CreateWorkOrder extends Component {
   render() {
     const data = this.state.symptoms;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <h4>Crear Orden de Trabajo</h4>
-          </div>
-        </div>
+      <div className="containers">
+      <Topbar title="Crear Órden de Trabajo"/>
+       
         <form className="white">
           <div className="row">
             <h5>Datos de la Orden</h5>
@@ -124,7 +122,7 @@ class CreateWorkOrder extends Component {
                 id="type"
                 onChange={this.handleChange}
                 className="browser-default"
-                value= {this.state.type}
+                value={this.state.type}
               >
                 <option value="Mecánica">Mecánica</option>
                 <option value="Chapistería">Chapistería</option>
@@ -240,7 +238,7 @@ class CreateWorkOrder extends Component {
           <div className="row">
             <div className="input-field">
               <button
-                className="btn red darken-3 z-depth-0"
+                className="btn red darken-3 z-depth-3"
                 onClick={this.handelSubmit}
               >
                 Guardar
@@ -253,11 +251,10 @@ class CreateWorkOrder extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {      
-  }
-}
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = state => {
+  return {};
+};
+const mapDispatchToProps = dispatch => {
   return {
     createWorkOrder: workOrder => dispatch(createWorkOrder(workOrder))
   };

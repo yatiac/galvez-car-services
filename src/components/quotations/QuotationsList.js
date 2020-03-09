@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Topbar from "../layouts/Topbar";
 
 const QuotationsList = () => {
   return (
-    <div className="container">
+    <div className="">
+      <Topbar title="Cotizaciones" />
+      <p></p>
       <div className="row">
         <div className="col">
-          <h4>Esta es la lista de cotizaciones</h4>
+          
           <Link to="/createQuotation">
             <button className="btn red darken-2">
               <i className="material-icons left">add</i>

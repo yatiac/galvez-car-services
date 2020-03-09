@@ -15,6 +15,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Topbar from "../layouts/Topbar";
+
 
 class WorkOrdersList extends Component {
   handleClick = e => {
@@ -116,11 +118,10 @@ class WorkOrdersList extends Component {
             </div>
           </div>
         </div>
-        <div className="hide-on-med-and-up">
-          <ul className="collection no-margin with-header">
-            <li className="collection-header">
-              <h4>Órdenes de Trabajo</h4>
-            </li>
+        <div className="hide-on-med-and-up white">
+          <Topbar title="Órdenes de Trabajo" />
+          <p> </p>
+          <ul className="collection no-margin">
             {workOrders &&
               workOrders.map((workOrder, index) => (
                 <li
@@ -129,27 +130,37 @@ class WorkOrdersList extends Component {
                   data-id={workOrder.id}
                   onClick={this.handleClick}
                 >
-                  <span className="title" data-id={workOrder.id}>
-                    <strong>{workOrder.owner.name}</strong>{" "}
-                  </span>
-                  <span className="secondary-content" data-id={workOrder.id}>
-                    {" "}
-                    {this.statusBadge(workOrder.status, workOrder.id)}
-                  </span>
-                  <p
-                    data-id={workOrder.id}
-                  >{`[${workOrder.vehicle.plate}] ${workOrder.vehicle.maker} ${workOrder.vehicle.model} ${workOrder.vehicle.color} (${workOrder.vehicle.year})`}</p>
-                  <span className="grey-text" data-id={workOrder.id}>
-                    {moment(workOrder.date).format("MMMM D YYYY")}
-                  </span>
+                  <div data-id={workOrder.id}>
+                    <span className="title" data-id={workOrder.id}>
+                      <strong data-id={workOrder.id}>
+                        {workOrder.owner.name}
+                      </strong>{" "}
+                    </span>
+                    <p className="no-margin" data-id={workOrder.id}></p>
+                    <span className="secondary-content" data-id={workOrder.id}>
+                      {" "}
+                      {this.statusBadge(workOrder.status, workOrder.id)}
+                    </span>
+                    <p className="no-margin" data-id={workOrder.id}></p>
+                    <span data-id={workOrder.id}>
+                      {`[${workOrder.vehicle.plate}] ${workOrder.vehicle.maker} ${workOrder.vehicle.model} ${workOrder.vehicle.color} (${workOrder.vehicle.year})`}
+                    </span>
+                    <p className="no-margin" data-id={workOrder.id}></p>
+                    <span
+                      className="grey-text no-margin"
+                      data-id={workOrder.id}
+                    >
+                      {moment(workOrder.date).format("MMMM D YYYY")}
+                    </span>
+                  </div>
                 </li>
               ))}
           </ul>
-          <div class="fixed-action-btn">
+          <div className="fixed-action-btn" style={{ marginBottom: "5rem" }}>
             <Link to="/createWorkOrder">
-              <a class="btn-floating btn-large red">
-                <i class="large material-icons">add</i>
-              </a>
+              <button className="btn-floating btn-large red">
+                <i className="large material-icons">add</i>
+              </button>
             </Link>
           </div>
         </div>

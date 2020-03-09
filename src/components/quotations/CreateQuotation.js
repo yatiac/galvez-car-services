@@ -40,7 +40,7 @@ const CreateQuotation = () => {
         <div className="row">
           <div className="col right">
             <button className="btn red darken-2">
-              <i class="material-icons right">send</i>
+              <i className="material-icons right">send</i>
               Enviar
             </button>
           </div>
