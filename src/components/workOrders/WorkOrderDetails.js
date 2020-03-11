@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/es";
 import Topbar from "../layouts/Topbar";
+import StatusBadge from "./StatusBadge";
 
 const WorkOrderDetails = props => {
   const { workOrder } = props;
@@ -17,29 +18,28 @@ const WorkOrderDetails = props => {
       {workOrder && (
         <div>
           <div className="white">
-            <div className="row">
-              <div className="col s6">
+            <div className="row no-margin">
+              <div className="col s12 m2">
                 <p>
-                  <strong className="grey-text text-darken-1">Fecha</strong>
+                  <i className="material-icons">calendar_today</i>{" "}
+                  {moment(workOrder.date).format("MMMM D YYYY")}                  
+                  <StatusBadge
+                    status={workOrder.status}
+                    id={workOrder.id}
+                    align="center"
+                  />                  
                 </p>
-                <p>{moment(workOrder.date).format("MMMM D YYYY")}</p>
-              </div>
-              <div className="col s6">
-                <p>
-                  <strong>Estado</strong>
-                </p>
-                <p>{workOrder.status}</p>
               </div>
             </div>
             <div className="row">
               <div className="col s12 m6">
-                <h4>Dueño</h4>
+                <h5>Dueño</h5>
                 <p>{workOrder.owner.name}</p>
                 <p>{workOrder.owner.phone}</p>
                 <p>{workOrder.owner.email}</p>
               </div>
               <div className="col s12 m6">
-                <h4>Vehículo</h4>
+                <h5>Vehículo</h5>
                 <p>
                   [{workOrder.vehicle.plate}] {workOrder.vehicle.maker}{" "}
                   {workOrder.vehicle.model} {workOrder.vehicle.color}{" "}
@@ -49,7 +49,7 @@ const WorkOrderDetails = props => {
             </div>
             <div className="row">
               <div className="col s12">
-                <h4>Síntomas</h4>
+                <h5>Síntomas</h5>
                 <ul className="collection">
                   {workOrder.symptoms.map((item, index) => (
                     <li className="collection-item" data-id={item} key={index}>
