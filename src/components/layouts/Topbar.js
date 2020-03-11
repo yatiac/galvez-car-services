@@ -29,8 +29,7 @@ const Topbar = props => {
     <nav>
       <div className="nav-wrapper white black-text z-depth-1">
         <span
-          href="#!"
-          className="brand-logo left"
+          className="brand-logo left pointer"
           onClick={() => {
             history.goBack();
           }}
