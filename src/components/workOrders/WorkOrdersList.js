@@ -6,7 +6,7 @@ import { compose } from "redux";
 import { Redirect, useHistory } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/es";
-import Highlight from 'react-highlighter';
+import Highlight from "react-highlighter";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -23,6 +23,7 @@ class WorkOrdersList extends Component {
   state = {
     searchTerm: ""
   };
+
   handleClick = e => {
     const id = e.target.getAttribute("data-id");
     this.props.history.push(`/workOrder/${id}`);
@@ -30,7 +31,6 @@ class WorkOrdersList extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    alert("busqueda");
   };
 
   handleChange = e => {
@@ -135,14 +135,14 @@ class WorkOrdersList extends Component {
                 </div>
               </form>
             </li>
-            {workOrders &&
+            {workOrders ? (
               workOrders
-                .filter(e => {
+                .filter(workOrder => {
                   if (this.state.searchTerm.length > 0) {
                     const term = this.state.searchTerm.toUpperCase();
                     return (
-                      e.vehicle.plate.toUpperCase().includes(term) ||
-                      e.owner.name.toUpperCase().includes(term)
+                      workOrder.vehicle.plate.toUpperCase().includes(term) ||
+                      workOrder.owner.name.toUpperCase().includes(term)
                     );
                   }
                   return true;
@@ -156,12 +156,17 @@ class WorkOrdersList extends Component {
                   >
                     <div data-id={workOrder.id}>
                       <span className="title" data-id={workOrder.id}>
-                        <strong data-id={workOrder.id}>                          
+                        <strong data-id={workOrder.id}>
                           {/* {workOrder.owner.name.replace(
                             new RegExp(this.state.searchTerm.toUpperCase(), "gi"),
                             match => <mark>${match}</mark>
                           )} */}
-                          <Highlight search={this.state.searchTerm} data-id={workOrder.id}>{workOrder.owner.name}</Highlight>
+                          <Highlight
+                            search={this.state.searchTerm}
+                            data-id={workOrder.id}
+                          >
+                            {workOrder.owner.name}
+                          </Highlight>
                         </strong>{" "}
                       </span>
                       <p className="no-margin" data-id={workOrder.id}></p>
@@ -177,7 +182,12 @@ class WorkOrdersList extends Component {
                       </span>
                       <p className="no-margin" data-id={workOrder.id}></p>
                       <span data-id={workOrder.id}>
-                       [<Highlight search={this.state.searchTerm}>{workOrder.vehicle.plate}</Highlight>] {`${workOrder.vehicle.maker} ${workOrder.vehicle.model} ${workOrder.vehicle.color} (${workOrder.vehicle.year})`}
+                        [
+                        <Highlight search={this.state.searchTerm}>
+                          {workOrder.vehicle.plate}
+                        </Highlight>
+                        ]{" "}
+                        {`${workOrder.vehicle.maker} ${workOrder.vehicle.model} ${workOrder.vehicle.color} (${workOrder.vehicle.year})`}
                       </span>
                       <p className="no-margin" data-id={workOrder.id}></p>
                       <span
@@ -188,7 +198,22 @@ class WorkOrdersList extends Component {
                       </span>
                     </div>
                   </li>
-                ))}
+                ))
+            ) : (
+              <div class="ph-item">
+                {[...Array(6)].map(e => {
+                  return (
+                    <ul class="ph-col-12">
+                      <div class="ph-row">
+                        <div class="ph-col-2"></div>
+                        <div class="ph-col-12"></div>
+                        <div class="ph-col-2"></div>
+                      </div>
+                    </ul>
+                  );
+                })}
+              </div>
+            )}
           </ul>
           <div className="fixed-action-btn" style={{ marginBottom: "5rem" }}>
             <Link to="/createWorkOrder">
