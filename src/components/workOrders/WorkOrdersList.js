@@ -161,7 +161,7 @@ class WorkOrdersList extends Component {
                             new RegExp(this.state.searchTerm.toUpperCase(), "gi"),
                             match => <mark>${match}</mark>
                           )} */}
-                          <Highlight search={this.state.searchTerm}>{workOrder.owner.name}</Highlight>
+                          <Highlight search={this.state.searchTerm} data-id={workOrder.id}>{workOrder.owner.name}</Highlight>
                         </strong>{" "}
                       </span>
                       <p className="no-margin" data-id={workOrder.id}></p>
